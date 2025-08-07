@@ -34,8 +34,7 @@ jobs:
           go-version: '>=1.23.0'
       - name: Build
         run: |
-          echo "Running build..."
-  
+          echo "Running build..."			 
           go mod tidy
           go build main.go`
 
@@ -100,23 +99,18 @@ jobs:
 
 var golangCmd = &cobra.Command{
 	Use:   "golang",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "starter pipeline for golang projects",
+	Long:  `A starter pipeline with a formatter, builder, linter and security tests for your golang project`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := os.MkdirAll(".github/workflows", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		fmt.Println("Creating GitHub Actions file for Golang...")
+		fmt.Println("Creating cicd file for golang...")
 		os.WriteFile(".github/workflows/golang.yml", mainFile(), 0644)
 
-		fmt.Println("Creating format on pull request...")
+		fmt.Println("Creating formater file...")
 		os.WriteFile(".github/workflows/format.yml", formatFile(), 0644)
 
 	},

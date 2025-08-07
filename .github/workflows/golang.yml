@@ -21,7 +21,20 @@ jobs:
           go-version: '>=1.23.0'
       - name: Build
         run: |
-          echo "Running build..."
-  
+          echo "Running build..."			 
           go mod tidy
           go build main.go
+    
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
