@@ -47,4 +47,3 @@ jobs:
           git add -A
           git commit -m "Auto-format Go code"
           git push
-	

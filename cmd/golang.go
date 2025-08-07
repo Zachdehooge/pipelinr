@@ -37,9 +37,7 @@ jobs:
           echo "Running build..."
   
           go mod tidy
-          go build main.go
-
-	`
+          go build main.go`
 
 	return []byte(text)
 }
@@ -93,8 +91,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add -A
           git commit -m "Auto-format Go code"
-          git push
-	`
+          git push`
 
 	return []byte(text)
 }
