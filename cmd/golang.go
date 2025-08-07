@@ -36,7 +36,32 @@ jobs:
         run: |
           echo "Running build..."			 
           go mod tidy
-          go build main.go`
+          go build main.go
+  security:
+  	name: Security
+  	runs-on: ubuntu-latest
+  	needs: build
+  	env:
+    	GO111MODULE: on
+  	steps:
+    	- name: Checkout Source
+      	uses: actions/checkout@v3
+
+    	- name: Install Gosec
+      	run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    	- name: Run Gosec and Output to JSON
+      	run: |
+        	$(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./...
+
+    	- name: Check for HIGH Severity Issues
+      	run: |
+        	if jq -e '.Issues[] | select(.severity == "HIGH")' gosec-results.json > /dev/null; then
+          	echo "❌ High severity issues found by gosec"
+          	exit 1
+        	else
+          	echo "✅ No high severity issues found"
+        	fi`
 
 	return []byte(text)
 }
