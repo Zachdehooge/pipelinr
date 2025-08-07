@@ -49,6 +49,8 @@ name: Go Format Code
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   format:
