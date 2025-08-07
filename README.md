@@ -1,2 +1,2 @@
 # pipelinr
-A CLI tool for generating clean, consistent CI/CD pipelines
+A CLI tool for generating CI/CD pipelines
