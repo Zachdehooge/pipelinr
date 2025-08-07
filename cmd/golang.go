@@ -44,7 +44,7 @@ jobs:
 
 func formatFile() []byte {
 	var text = `
-name: Go Format Code
+name: Go Format
 
 on:
   pull_request:
