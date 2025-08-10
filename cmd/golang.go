@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func mainFile() []byte {
+func golang() []byte {
 	var text = `
 
 name: CI/CD
@@ -70,7 +70,7 @@ jobs:
 	return []byte(text)
 }
 
-func formatFile() []byte {
+func golang_format() []byte {
 	var text = `
 name: Go Format
 
@@ -137,10 +137,10 @@ var golangCmd = &cobra.Command{
 			return
 		}
 		fmt.Println("Creating cicd file for golang...")
-		os.WriteFile(".github/workflows/golang.yml", mainFile(), 0644)
+		os.WriteFile(".github/workflows/golang.yml", golang(), 0644)
 
 		fmt.Println("Creating formater file...")
-		os.WriteFile(".github/workflows/format.yml", formatFile(), 0644)
+		os.WriteFile(".github/workflows/golang_format.yml", golang_format(), 0644)
 
 	},
 }

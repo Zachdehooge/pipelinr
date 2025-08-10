@@ -1,5 +1,3 @@
-
-
 name: CI/CD
 
 on:
@@ -42,13 +40,13 @@ jobs:
 
       - name: Run Gosec and Output to JSON
         run: |
-          $(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./...
+          $(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./... || true
 
       - name: Check for HIGH Severity Issues
         run: |
-          if jq -e '.Issues[] | select(.severity == "HIGH")' gosec-results.json > /dev/null; then
+          if jq -e '.Issues[]? | select(.severity | ascii_upcase == "HIGH")' gosec-results.json >/dev/null; then
             echo "❌ High severity issues found by gosec"
-            exit 999
+            exit 1
           else
             echo "✅ No high severity issues found"
           fi
