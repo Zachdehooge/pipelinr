@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -94,10 +95,10 @@ var pythonCmd = &cobra.Command{
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		fmt.Println("Creating cicd file for python...")
+		color.Blue("Creating cicd file for python...")
 		os.WriteFile(".github/workflows/python.yml", python(), 0644)
 
-		fmt.Println("Creating formater file for python...")
+		color.Blue("Creating formater file for python...")
 		os.WriteFile(".github/workflows/python_format.yml", python_format(), 0644)
 	},
 }

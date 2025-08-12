@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -89,10 +90,10 @@ to quickly create a Cobra application.`,
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		fmt.Println("Creating cicd file for zig...")
+		color.Yellow("Creating cicd file for zig...")
 		os.WriteFile(".github/workflows/zig.yml", zig(), 0644)
 
-		fmt.Println("Creating format file for zig...")
+		color.Yellow("Creating format file for zig...")
 		os.WriteFile(".github/workflows/zig_format.yml", zig_format(), 0644)
 	},
 }

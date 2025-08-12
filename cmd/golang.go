@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -53,17 +54,16 @@ jobs:
 
       - name: Run Gosec and Output to JSON
         run: |
-          $(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./...
+          $(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./... || true
 
       - name: Check for HIGH Severity Issues
         run: |
-          if jq -e '.Issues[] | select(.severity == "HIGH")' gosec-results.json > /dev/null; then
-            echo "❌ High severity issues found by gosec"
+          if jq -e '.Issues[]? | select(.severity | ascii_upcase == "HIGH")' gosec-results.json >/dev/null; then
+            echo "High severity issues found"
             exit 1
           else
-            echo "✅ No high severity issues found"
-          fi
-`
+            echo "No high severity issues found"
+          fi`
 
 	return []byte(text)
 }
@@ -133,10 +133,10 @@ var golangCmd = &cobra.Command{
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		fmt.Println("Creating cicd file for golang...")
+		color.Cyan("Creating cicd file for golang...")
 		os.WriteFile(".github/workflows/golang.yml", golang(), 0644)
 
-		fmt.Println("Creating formater file...")
+		color.Cyan("Creating formater file...")
 		os.WriteFile(".github/workflows/golang_format.yml", golang_format(), 0644)
 
 	},
