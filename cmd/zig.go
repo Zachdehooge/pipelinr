@@ -33,7 +33,45 @@ jobs:
 	return []byte(text)
 }
 
-//TODO: Zig_format to be implemented
+func zig_format() []byte {
+	var text = `name: Format
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    name: Format
+    steps:
+      - uses: actions/checkout@v3
+      - uses: mlugg/setup-zig@v2
+      - run: zig fmt src/*.zig
+
+
+# Commit changes if any
+      - name: Check for changes
+        id: git-check
+        run: |
+          git status --porcelain
+          echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+
+      - name: Commit changes
+        if: steps.git-check.outputs.changes > 0
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git commit -m "Auto-format Go code"
+          git push`
+
+	return []byte(text)
+}
 
 // zigCmd represents the zig command
 var zigCmd = &cobra.Command{
@@ -53,6 +91,9 @@ to quickly create a Cobra application.`,
 		}
 		fmt.Println("Creating cicd file for zig...")
 		os.WriteFile(".github/workflows/zig.yml", zig(), 0644)
+
+		fmt.Println("Creating format file for zig...")
+		os.WriteFile(".github/workflows/zig_format.yml", zig_format(), 0644)
 	},
 }
 
