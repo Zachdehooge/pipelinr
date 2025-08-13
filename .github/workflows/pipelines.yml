@@ -7,18 +7,79 @@ on:
     branches:
       - main
 
+permissions:
+  workflows: write
+  contents: read
 
 jobs:
   pipeline-tests:
     name: Pipeline Tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
       - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.23.0'
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+
       - name: Install Zig
         run: sudo snap install zig --classic --beta
-      - name: Run Go tests
-        run: go test ./...
+
+      - name: Install GitHub CLI
+        run: sudo apt-get update && sudo apt-get install -y gh
+
+      - name: Trigger another workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow list --repo owner/repo-name
+          
+          gh workflow run build-and-test.yml \
+            --repo owner/repo-name \
+            --ref main \
+            --field environment=staging
+
+      - name: Create Python Hello World
+        run: echo "print('Hello, World!')" > hello.py
+
+      - name: Python Pipeline
+        run: |
+          go run main.go python
+          
+          gh workflow run python.yml \
+            --repo owner/repo-name \
+            --ref main \
+            --field environment=staging
+          
+          gh workflow run python_format.yml \
+            --repo owner/repo-name \
+            --ref main \
+            --field environment=staging
+
+      - name: Create Zig Hello World
+        run: |
+          echo 'const std = @import("std");
+          pub fn main() void {
+              std.debug.print("Hello, World!\n", .{});
+          }' > hello.zig
+
+      - name: Run Zig Pipeline
+        run: |
+          go run main.go zig
+          
+          gh workflow run zig.yml \
+            --repo owner/repo-name \
+            --ref main \
+            --field environment=staging
+          
+          gh workflow run zig_format.yml \
+            --repo owner/repo-name \
+            --ref main \
+            --field environment=staging
