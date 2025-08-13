@@ -63,9 +63,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git branch -c temp_pipe || git checkout -b temp_pipe
-          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml || echo "No changes to commit"
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
-          git push origin temp_pipe
+          git push origin temp_pipe || echo "No changes to push"
 
       - name: Dispatch workflow runs
         env:
@@ -73,19 +73,19 @@ jobs:
         run: |
           git branch --show-current
           
-          echo "Executing worflow python.yml"
+          echo "Executing workflow python.yml"
           
           gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          echo "Executing worflow python_format.yml"
+          echo "Executing workflow python_format.yml"
           
           gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          echo "Executing worflow zig.yml"
+          echo "Executing workflow zig.yml"
           
           gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          echo "Executing worflow zig_format.yml"
+          echo "Executing workflow zig_format.yml"
           
           gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
 
