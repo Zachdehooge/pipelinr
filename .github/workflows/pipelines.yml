@@ -113,7 +113,9 @@ jobs:
 
           sleep 30
 
-          rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml main.py main.zig
+          
+          git add .
 
           git commit -m "Remove temporary workflow files"
 
