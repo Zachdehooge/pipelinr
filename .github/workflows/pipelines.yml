@@ -57,17 +57,6 @@ jobs:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git checkout temp_pipe || git checkout -b temp_pipe
-
-          git add . || echo "No changes to commit"
-
-          git commit -m "Add temporary workflow files" || echo "No changes to commit"
-
-          git push origin temp_pipe || echo "No changes to push"
-
           git pull origin temp_pipe
 
           echo "Current branch:"
