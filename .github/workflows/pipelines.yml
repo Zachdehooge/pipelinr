@@ -78,7 +78,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           
-          git pull
+          git pull origin temp_pipe
 
           echo "Current branch:" 
           
