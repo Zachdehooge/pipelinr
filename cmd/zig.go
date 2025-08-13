@@ -18,7 +18,7 @@ on:
   push:
     branches:
       - main
-	  - temp_pipe
+      - temp_pipe
   pull_request:
     branches:
       - main
@@ -42,7 +42,7 @@ on:
   push:
     branches:
       - main
-	  - temp_pipe
+      - temp_pipe
   pull_request:
     branches:
       - main

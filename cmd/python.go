@@ -18,7 +18,7 @@ on:
   push:
     branches:
       - main
-	  - temp_pipe
+      - temp_pipe
   pull_request:
     branches:
       - main
@@ -69,6 +69,7 @@ jobs:
 
 func python_format() []byte {
 	var text = `
+
 name: Python Format
 
 on:
@@ -77,7 +78,7 @@ on:
   push:
     branches:
       - main
-	  - temp_pipe
+      - temp_pipe
   workflow_dispatch:
 
 jobs:
