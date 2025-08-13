@@ -110,12 +110,12 @@ jobs:
           
           sleep 30
 
-      - name: Delete workflow files and commit
-        env:
-          token: ${{ secrets.PIPE_TOKEN }}
-        run: |
           rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          
           git commit -m "Remove temporary workflow files"
+          
           git push origin temp_pipe
+          
           git push origin --delete temp_pipe      
