@@ -10,6 +10,7 @@ on:
 permissions:
   actions: write
   contents: write
+  workflows: write
 
 jobs:
   pipeline-tests:
@@ -53,7 +54,7 @@ jobs:
           go run main.go python
 
       - name: Commit and push workflow files
-        env:
+      - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
