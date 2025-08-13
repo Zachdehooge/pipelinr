@@ -38,21 +38,6 @@ jobs:
       - name: Create Python Hello World
         run: echo "print('Hello, World!')" > hello.py
 
-      - name: Python Pipeline
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          go run main.go python
-          
-          gh workflow run python.yml \
-            --repo zachdehooge/pipelinr \
-            --ref main \
-            --field environment=staging
-          
-          gh workflow run python_format.yml \
-            --repo zachdehooge/pipelinr \
-            --ref main \
-            --field environment=staging
 
       - name: Create Zig Hello World
         run: |
@@ -61,18 +46,35 @@ jobs:
               std.debug.print("Hello, World!\n", .{});
           }' > hello.zig
 
-      - name: Run Zig Pipeline
+      - name: Add workflow files
+        run: |
+          cp python.yml .github/workflows/
+          cp python_format.yml .github/workflows/
+          cp zig.yml .github/workflows/
+          cp zig_format.yml .github/workflows/
+
+      - name: Commit and push workflow files
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          go run main.go zig
-          
-          gh workflow run zig.yml \
-            --repo zachdehooge/pipelinr \
-            --ref main \
-            --field environment=staging
-          
-          gh workflow run zig_format.yml \
-            --repo zachdehooge/pipelinr \
-            --ref main \
-            --field environment=staging
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          git commit -m "Add temporary workflow files"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Dispatch workflow runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run python.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
+          gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
+          gh workflow run zig.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
+          gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
+
+      - name: Delete workflow files and commit
+        run: |
+          rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+          git commit -m "Remove temporary workflow files"
+          git push origin HEAD:${{ github.ref_name }}
