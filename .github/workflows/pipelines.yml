@@ -103,4 +103,4 @@ jobs:
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git commit -m "Remove temporary workflow files"
           git push origin temp_pipe
-          gh pr close --head temp_pipe
+          git push origin --delete temp_pipe      
