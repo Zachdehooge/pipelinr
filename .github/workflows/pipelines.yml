@@ -56,16 +56,16 @@ jobs:
           go run main.go zig
           go run main.go python
 
-      - name: Commit and push workflow files
-        env:
-          token: ${{ secrets.PIPE_TOKEN }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
-          git commit -m "Add temporary workflow files" || echo "No changes to commit"
-          git pull --rebase origin HEAD
-          git push origin HEAD:refs/heads/${{ github.ref_name }}
+#      - name: Commit and push workflow files
+#        env:
+#          token: ${{ secrets.PIPE_TOKEN }}
+#        run: |
+#          git config user.name "github-actions[bot]"
+#          git config user.email "github-actions[bot]@users.noreply.github.com"
+#          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
+#          git commit -m "Add temporary workflow files" || echo "No changes to commit"
+#          git pull --rebase origin HEAD
+#          git push origin HEAD:refs/heads/${{ github.ref_name }}
 
       - name: Dispatch workflow runs
         env:
