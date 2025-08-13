@@ -34,6 +34,7 @@ jobs:
         with:
           python-version: '3.13'
       - run: |
+		  ls -la
           python3 -m venv venv
           ./venv/bin/python main.py
 
@@ -69,9 +70,7 @@ jobs:
 }
 
 func python_format() []byte {
-	var text = `
-
-name: Python Format
+	var text = `name: Python Format
 
 on:
   pull_request:
