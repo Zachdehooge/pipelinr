@@ -70,6 +70,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          git checkout -b temp_pipe
           gh workflow run ./.github/workflows/python.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
           gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
           gh workflow run zig.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
