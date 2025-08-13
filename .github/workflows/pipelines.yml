@@ -77,23 +77,32 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
 
+          echo "Current branch:" 
+          
           git branch --show-current
+          
+          echo "File Structure:"
+          
+          ls -la
+          
+          echo "Current directory:"
+          pwd
           
           echo "Executing workflow python.yml"
           
-          gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)" || exit 1
           
           echo "Executing workflow python_format.yml"
           
-          gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 1
           
           echo "Executing workflow zig.yml"
           
-          gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 1
           
           echo "Executing workflow zig_format.yml"
           
-          gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 1
 
       - name: Delete workflow files and commit
         env:
