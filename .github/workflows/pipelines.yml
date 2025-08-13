@@ -57,6 +57,8 @@ jobs:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
+          git fetch origin temp_pipe || exit 400
+          
           echo "Current branch:"
 
           git branch --show-current
