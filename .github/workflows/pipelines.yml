@@ -70,7 +70,7 @@ jobs:
 
           git checkout temp_pipe || git checkout -b temp_pipe
 
-          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml main.py zig.py|| echo "No changes to commit"
+          git add . || echo "No changes to commit"
 
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
 
