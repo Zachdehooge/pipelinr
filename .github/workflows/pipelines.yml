@@ -53,8 +53,8 @@ jobs:
           go run main.go python
 
       - name: Commit and push workflow files
-        env:
-          GH_TOKEN: ${{ github.token }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -63,8 +63,8 @@ jobs:
           git push origin HEAD:${{ github.ref_name }}
 
       - name: Dispatch workflow runs
-        env:
-          GH_TOKEN: ${{ github.token }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh workflow run python.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
           gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
@@ -72,6 +72,8 @@ jobs:
           gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
 
       - name: Delete workflow files and commit
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
