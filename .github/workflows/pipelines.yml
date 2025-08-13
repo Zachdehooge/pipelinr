@@ -33,13 +33,13 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt-get update && sudo apt-get install -y gh
       - name: Create Python Hello World
-        run: echo "print('Hello, World!')" > hello.py
+        run: echo "print('Hello, World!')" > main.py
       - name: Create Zig Hello World
         run: |
           echo 'const std = @import("std");
           pub fn main() void {
               std.debug.print("Hello, World!\n", .{});
-          }' > hello.zig
+          }' > src/main.zig
       - name: Add workflow files
         run: |
           go run main.go zig
