@@ -45,19 +45,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git branch -c temp_pipe || git checkout -b temp_pipe
+          git branch -c temp_pipe
 
-          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml || echo "No changes to commit"
+          git add . || echo "No changes to commit"
 
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
 
-          git push origin temp_pipe || echo "No changes to push"
+          git push || echo "No changes to push"
       - name: Workflow Dispatch
         env:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch origin temp_pipe || exit 400
+          git pull temp_pipe || exit 400
           
           echo "Current branch:"
 
