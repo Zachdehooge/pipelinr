@@ -45,8 +45,8 @@ jobs:
       - name: Check for HIGH Severity Issues
         run: |
           if jq -e '.Issues[] | select(.severity == "HIGH")' gosec-results.json > /dev/null; then
-            echo "❌ High severity issues found by gosec"
-            exit 1
+            echo "High severity issues found by gosec"
+            exit 69
           else
-            echo "✅ No high severity issues found"
+            echo "No high severity issues found"
           fi
