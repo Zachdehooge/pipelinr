@@ -62,6 +62,8 @@ jobs:
           
           git checkout temp_pipe
           
+          git pull origin temp_pipe
+          
           echo "Current branch:"
 
           git branch --show-current
