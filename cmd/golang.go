@@ -50,7 +50,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22" # adjust to your version
+          go-version: "1.22"
 
       - name: Install Gosec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
@@ -62,7 +62,7 @@ jobs:
           HIGH_COUNT=$(jq '[.Issues[] | select(.severity == "HIGH")] | length' gosec-report.json)
           echo "Found $HIGH_COUNT high severity issues."
           if [ "$HIGH_COUNT" -gt 0 ]; then
-            echo "High severity issues detected! Failing the build."
+            echo "High severity issues detected!"
             exit 1
           fi`
 
