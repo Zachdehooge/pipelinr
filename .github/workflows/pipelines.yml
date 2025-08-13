@@ -39,6 +39,8 @@ jobs:
         run: echo "print('Hello, World!')" > hello.py
 
       - name: Python Pipeline
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           go run main.go python
           
@@ -60,6 +62,8 @@ jobs:
           }' > hello.zig
 
       - name: Run Zig Pipeline
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           go run main.go zig
           
