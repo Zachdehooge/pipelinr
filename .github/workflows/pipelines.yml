@@ -68,7 +68,7 @@ jobs:
 
       - name: Dispatch workflow runs
         env:
-          token: ${{ secrets.PIPE_TOKEN  }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh workflow run python.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
           gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref ${{ github.ref_name }} --field environment=staging
