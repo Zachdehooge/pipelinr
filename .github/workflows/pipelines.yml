@@ -58,7 +58,7 @@ jobs:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch origin temp_pipe:temp_pipe
+          git fetch origin temp_pipe
           
           git checkout temp_pipe
           
@@ -108,3 +108,10 @@ jobs:
           git push origin temp_pipe
 
           git push origin --delete temp_pipe
+
+      - name: Cleanup temp_pipe branch
+        if: always()
+        env:
+          token: ${{ secrets.PIPE_TOKEN }}
+        run: |
+          git push origin --delete temp_pipe || echo "Branch already deleted or does not exist"
