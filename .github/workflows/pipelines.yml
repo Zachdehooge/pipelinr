@@ -56,6 +56,7 @@ jobs:
         run: |
           go run main.go zig
           go run main.go python
+          go run main.go golang
 
       - name: Commit and push workflow files
         env:

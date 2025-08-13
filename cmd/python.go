@@ -26,15 +26,16 @@ on:
 
 jobs:
   run:
-    name: Build
+    name: Run
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python3 main.py
-
+      - run: |
+          python3 -m venv venv
+          ./venv/bin/python main.py
 
   bandit:
     name: Bandit Security Scan
@@ -47,7 +48,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: Install Bandit and jq
         run: |
@@ -95,7 +96,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'
+        python-version: '3.13'
 
     - name: Install dependencies
       run: |
@@ -104,6 +105,7 @@ jobs:
 
     - name: Format with Black
       run: |
+		ls -la
         black main.py
       
 
@@ -129,10 +131,10 @@ var pythonCmd = &cobra.Command{
 			return
 		}
 		color.Blue("Creating cicd file for python...")
-		os.WriteFile(".github/workflows/python.yml", python(), 0644)
+		_ = os.WriteFile(".github/workflows/python.yml", python(), 0644)
 
 		color.Blue("Creating formater file for python...")
-		os.WriteFile(".github/workflows/python_format.yml", python_format(), 0644)
+		_ = os.WriteFile(".github/workflows/python_format.yml", python_format(), 0644)
 	},
 }
 
