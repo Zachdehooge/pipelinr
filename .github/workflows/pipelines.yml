@@ -47,7 +47,7 @@ jobs:
           go run main.go zig
           go run main.go python
           go run main.go golang
-      - name: Dispatch Workflows
+      - name: Add Files and Commit
         env:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
