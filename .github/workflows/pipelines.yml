@@ -30,18 +30,8 @@ jobs:
           python-version: '3.x'
       - name: Install Zig
         run: sudo snap install zig --classic --beta
-      - name: Install GitHub CLI
-        run: sudo apt-get update && sudo apt-get install -y gh
       - name: Create Python Hello World
         run: echo "print('Hello, World!')" > main.py
-      - name: Create Zig Hello World
-        run: |
-          mkdir -p src
-          
-          echo 'const std = @import("std");
-          pub fn main() void {
-              std.debug.print("Hello, World!\n", .{});
-          }' > src/main.zig
       - name: Add workflow files
         run: |
           go run main.go zig

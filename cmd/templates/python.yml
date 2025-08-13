@@ -1,0 +1,56 @@
+name: Python CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - temp_pipe
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  program:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Run main.py
+        run: |
+          echo "$(git rev-parse --abbrev-ref HEAD)"
+          ls -la
+          python main.py
+
+  bandit:
+    name: Bandit Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Bandit and jq
+        run: |
+          pip install bandit
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Run Bandit (fail only on HIGH severity)
+        run: |
+          bandit -r . -f json -o bandit-report.json || true
+          HIGH_COUNT=$(jq '[.results[] | select(.issue_severity == "HIGH")] | length' bandit-report.json)
+          echo "Found $HIGH_COUNT high severity issues."
+          if [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "High severity issues detected! Failing the build."
+            exit 1
+          fi
