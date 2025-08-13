@@ -57,7 +57,9 @@ jobs:
           token: ${{ secrets.PIPE_TOKEN }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch temp_pipe
+          git fetch origin temp_pipe:temp_pipe
+          
+          git checkout temp_pipe
           
           echo "Current branch:"
 
