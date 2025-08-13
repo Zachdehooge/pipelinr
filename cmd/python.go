@@ -41,12 +41,12 @@ var pythonCmd = &cobra.Command{
 			return
 		}
 		color.Blue("Copying python.yml workflow...")
-		if err := copyYAMLPython("./cmd/templates/python.yml", ".github/templates/python.yml"); err != nil {
+		if err := copyYAMLPython("./cmd/templates/python.yml", ".github/workflows/python.yml"); err != nil {
 			fmt.Printf("Error copying python.yml: %v\n", err)
 		}
 
 		color.Blue("Copying python_format.yml workflow...")
-		if err := copyYAMLPython("./cmd/templates/python_format.yml", ".github/templates/python_format.yml"); err != nil {
+		if err := copyYAMLPython("./cmd/templates/python_format.yml", ".github/workflows/python_format.yml"); err != nil {
 			fmt.Printf("Error copying python_format.yml: %v\n", err)
 		}
 	},

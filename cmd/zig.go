@@ -46,12 +46,12 @@ to quickly create a Cobra application.`,
 			return
 		}
 		color.Yellow("Copying zig.yml workflow...")
-		if err := copyYAMLZig("./cmd/templates/zig.yml", ".github/templates/zig.yml"); err != nil {
+		if err := copyYAMLZig("./cmd/templates/zig.yml", ".github/workflows/zig.yml"); err != nil {
 			fmt.Printf("Error copying zig.yml: %v\n", err)
 		}
 
 		color.Yellow("Copying zig_format.yml workflow...")
-		if err := copyYAMLZig("./cmd/templates/zig_format.yml", ".github/templates/zig_format.yml"); err != nil {
+		if err := copyYAMLZig("./cmd/templates/zig_format.yml", ".github/workflows/zig_format.yml"); err != nil {
 			fmt.Printf("Error copying zig_format.yml: %v\n", err)
 		}
 	},

@@ -40,12 +40,12 @@ var golangCmd = &cobra.Command{
 			return
 		}
 		color.Cyan("Copying golang.yml workflow...")
-		if err := copyYAMLGolang("./cmd/templates/golang.yml", ".github/templates/golang.yml"); err != nil {
+		if err := copyYAMLGolang("./cmd/templates/golang.yml", ".github/workflows/golang.yml"); err != nil {
 			fmt.Printf("Error copying golang.yml: %v\n", err)
 		}
 
 		color.Cyan("Copying golang_format.yml workflow...")
-		if err := copyYAMLGolang("./cmd/templates/golang_format.yml", ".github/templates/golang_format.yml"); err != nil {
+		if err := copyYAMLGolang("./cmd/templates/golang_format.yml", ".github/workflows/golang_format.yml"); err != nil {
 			fmt.Printf("Error copying golang_format.yml: %v\n", err)
 		}
 
