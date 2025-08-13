@@ -73,11 +73,19 @@ jobs:
         run: |
           git branch --show-current
           
+          echo "Executing worflow python.yml"
+          
           gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          
+          echo "Executing worflow python_format.yml"
           
           gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
+          echo "Executing worflow zig.yml"
+          
           gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
+          
+          echo "Executing worflow zig_format.yml"
           
           gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
 

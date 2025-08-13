@@ -100,7 +100,6 @@ jobs:
 
     - name: Format with Black
       run: |
-				# Format the code using Black, add more files if needed
         black ./main.py
       
 
@@ -109,7 +108,6 @@ jobs:
       with:
         commit_message: "Apply Black formatting"
         file_pattern: |
-				# Commit formatting, add more files if needed
           ./main.py`
 
 	return []byte(text)
