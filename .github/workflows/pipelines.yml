@@ -61,20 +61,19 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git branch -c ${{ github.ref_name }} || git checkout -b ${{ github.ref_name }}
-          git add .
+          git branch -c temp_pipe || git checkout -b temp_pipe
+          git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
-          git pull origin ${{ github.ref_name }}
-          git push origin ${{ github.ref_name }}
+          git push origin temp_pipe
 
       - name: Dispatch workflow runs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh workflow run ./.github/workflows/python.yml --repo zachdehooge/pipelinr --ref HEAD:refs/heads/${{ github.ref_name }} --field environment=staging
-          gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref HEAD:refs/heads/${{ github.ref_name }} --field environment=staging
-          gh workflow run zig.yml --repo zachdehooge/pipelinr --ref HEAD:refs/heads/${{ github.ref_name }} --field environment=staging
-          gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref HEAD:refs/heads/${{ github.ref_name }} --field environment=staging
+          gh workflow run ./.github/workflows/python.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
+          gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
+          gh workflow run zig.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
+          gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
 
       - name: Delete workflow files and commit
         env:
@@ -83,4 +82,4 @@ jobs:
           rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git commit -m "Remove temporary workflow files"
-          git push origin HEAD:refs/heads/${{ github.ref_name }}
+          git push origin temp_pipe
