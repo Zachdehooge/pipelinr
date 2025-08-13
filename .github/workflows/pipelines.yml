@@ -79,6 +79,8 @@ jobs:
         run: |
           
           git pull origin temp_pipe
+          
+          git branch temp_pipe
 
           echo "Current branch:" 
           
