@@ -1,4 +1,4 @@
-name: Go Format
+name: Golang Format
 
 on:
   pull_request:
