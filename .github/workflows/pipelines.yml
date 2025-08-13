@@ -58,7 +58,7 @@ jobs:
           go run main.go python
           go run main.go golang
 
-      - name: Commit and push workflow files
+      - name: Dispatch Workflows
         env:
           token: ${{ secrets.PIPE_TOKEN }}
         run: |
@@ -72,15 +72,8 @@ jobs:
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
           
           git push origin temp_pipe || echo "No changes to push"
-
-      - name: Dispatch workflow runs
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
           
           git pull origin temp_pipe
-          
-          git switch temp_pipe
 
           echo "Current branch:" 
           
