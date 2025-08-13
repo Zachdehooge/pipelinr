@@ -25,18 +25,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  run:
+  program:
     name: Run
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: |
-		  ls -la
-          python3 -m venv venv
-          ./venv/bin/python main.py
+      - name: Run main.py
+        run: |
+          ls -la
+          python main.py
 
   bandit:
     name: Bandit Security Scan
