@@ -10,11 +10,13 @@ on:
 permissions:
   actions: write
   contents: write
+  pull-requests: write
 
 jobs:
   pipeline-tests:
     name: Pipeline Tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
