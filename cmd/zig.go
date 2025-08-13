@@ -21,7 +21,7 @@ on:
   pull_request:
     branches:
       - main
-
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,6 +44,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   format:

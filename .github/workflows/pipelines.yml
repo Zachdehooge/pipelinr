@@ -72,6 +72,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git branch --show-current
+          
           gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
           gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
