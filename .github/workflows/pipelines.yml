@@ -84,7 +84,7 @@ jobs:
           
           git branch --show-current
           
-          echo "File Structure:"
+          echo "Pipeline Structure:"
           
           ls .github/workflows
           
@@ -93,25 +93,25 @@ jobs:
           
           echo "Executing workflow python.yml"
           
-          gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)" || exit 420
+          gh workflow run python.yml --ref temp_pipe || exit 420
           
           sleep 30
           
           echo "Executing workflow python_format.yml"
           
-          gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 421
+          gh workflow run python_format.yml --ref temp_pipe  || exit 421
           
           sleep 30
           
           echo "Executing workflow zig.yml"
           
-          gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 423
+          gh workflow run zig.yml --ref temp_pipe  || exit 423
           
           sleep 30
           
           echo "Executing workflow zig_format.yml"
           
-          gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"  || exit 424
+          gh workflow run zig_format.yml --ref temp_pipe  || exit 424
           
           sleep 30
 
