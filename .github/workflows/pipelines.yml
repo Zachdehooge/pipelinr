@@ -61,6 +61,7 @@ jobs:
       - name: Dispatch Workflows
         env:
           token: ${{ secrets.PIPE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
