@@ -12,7 +12,7 @@ import (
 )
 
 func zig() []byte {
-	var text = `name: CI/CD
+	var text = `name: Zig CI/CD
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
 }
 
 func zig_format() []byte {
-	var text = `name: Format
+	var text = `name: Zig Format
 
 on:
   push:

@@ -12,7 +12,7 @@ import (
 )
 
 func python() []byte {
-	var text = `name: CI/CD
+	var text = `name: Python CI/CD
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python my_script.py
+      - run: python main.py
 
 
   bandit:
@@ -47,7 +47,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"  # Adjust as needed
+          python-version: "3.11"
 
       - name: Install Bandit and jq
         run: |
@@ -104,7 +104,7 @@ jobs:
 
     - name: Format with Black
       run: |
-        black ./main.py
+        black main.py
       
 
     - name: Commit changes

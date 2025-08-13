@@ -12,7 +12,7 @@ import (
 )
 
 func golang() []byte {
-	var text = `name: CI/CD
+	var text = `name: Golang CI/CD
 
 on:
   push:
@@ -72,7 +72,7 @@ jobs:
 }
 
 func golang_format() []byte {
-	var text = `name: Go Format
+	var text = `name: Golang Format
 
 on:
   pull_request:
