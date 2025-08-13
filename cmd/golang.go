@@ -39,30 +39,31 @@ jobs:
           go mod tidy
           go build main.go
 
-  security:
-    name: Security
+  gosec:
+    name: Run Gosec Security Scan
     runs-on: ubuntu-latest
-    needs: build
-    env:
-      GO111MODULE: on
+
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22" # adjust to your version
 
       - name: Install Gosec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest
 
-      - name: Run Gosec and Output to JSON
+      - name: Run Gosec (fail only on HIGH severity)
         run: |
-          $(go env GOPATH)/bin/gosec -fmt=json -out=gosec-results.json ./... || true
-
-      - name: Check for HIGH Severity Issues
-        run: |
-          if jq -e '.Issues[]? | select(.severity | ascii_upcase == "HIGH")' gosec-results.json >/dev/null; then
-            echo "High severity issues found"
+          gosec -fmt=json -severity=high ./... | tee gosec-report.json
+          # Extract the number of HIGH severity issues
+          HIGH_COUNT=$(jq '[.Issues[] | select(.severity == "HIGH")] | length' gosec-report.json)
+          echo "Found $HIGH_COUNT high severity issues."
+          if [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "High severity issues detected! Failing the build."
             exit 1
-          else
-            echo "No high severity issues found"
           fi`
 
 	return []byte(text)
