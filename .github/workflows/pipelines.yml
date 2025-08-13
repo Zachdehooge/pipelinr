@@ -36,6 +36,8 @@ jobs:
         run: echo "print('Hello, World!')" > main.py
       - name: Create Zig Hello World
         run: |
+          mkdir -p src
+          
           echo 'const std = @import("std");
           pub fn main() void {
               std.debug.print("Hello, World!\n", .{});
