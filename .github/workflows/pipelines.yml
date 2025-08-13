@@ -72,13 +72,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git branch --show-current
-          gh workflow run .github/workflows/python.yml --ref temp_pipe
+          gh workflow run python.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref temp_pipe
+          gh workflow run python_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          gh workflow run zig.yml --repo zachdehooge/pipelinr --ref temp_pipe
+          gh workflow run zig.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
           
-          gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref temp_pipe
+          gh workflow run zig_format.yml --ref "$(git rev-parse --abbrev-ref HEAD)"
 
       - name: Delete workflow files and commit
         env:
