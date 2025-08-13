@@ -45,6 +45,7 @@ jobs:
 
       - name: Add workflow files
         run: |
+          ls -la
           go run main.go zig
           go run main.go python
 
