@@ -32,9 +32,6 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt-get update && sudo apt-get install -y gh
 
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Create Python Hello World
         run: echo "print('Hello, World!')" > hello.py
 
@@ -48,10 +45,8 @@ jobs:
 
       - name: Add workflow files
         run: |
-          cp python.yml .github/workflows/
-          cp python_format.yml .github/workflows/
-          cp zig.yml .github/workflows/
-          cp zig_format.yml .github/workflows/
+          go run main.go zig
+          go run main.go python
 
       - name: Commit and push workflow files
         env:
