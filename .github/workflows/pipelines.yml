@@ -77,6 +77,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          
+          git pull origin temp_pipe
 
           echo "Current branch:" 
           
@@ -84,7 +86,7 @@ jobs:
           
           echo "File Structure:"
           
-          ls -la
+          ls .github/workflows
           
           echo "Current directory:"
           pwd
