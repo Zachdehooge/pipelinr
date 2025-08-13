@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - main
+	  - temp_pipe
   pull_request:
     branches:
       - main
@@ -74,7 +75,9 @@ on:
   pull_request:
     branches: [ main ]
   push:
-    branches: [ main ]
+    branches:
+      - main
+	  - temp_pipe
   workflow_dispatch:
 
 jobs:

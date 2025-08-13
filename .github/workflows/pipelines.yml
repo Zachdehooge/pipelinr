@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -62,15 +63,20 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          
           git branch -c temp_pipe || git checkout -b temp_pipe
+          
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml || echo "No changes to commit"
+          
           git commit -m "Add temporary workflow files" || echo "No changes to commit"
+          
           git push origin temp_pipe || echo "No changes to push"
 
       - name: Dispatch workflow runs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+
           git branch --show-current
           
           echo "Executing workflow python.yml"
@@ -97,3 +103,4 @@ jobs:
           git add .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml
           git commit -m "Remove temporary workflow files"
           git push origin temp_pipe
+          gh pr close --head temp_pipe
