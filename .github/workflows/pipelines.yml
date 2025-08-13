@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   actions: write
@@ -71,7 +72,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           git branch --show-current
-          gh workflow run ./.github/workflows/python.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
+          gh workflow run .github/workflows/python.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
           gh workflow run python_format.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
           gh workflow run zig.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
           gh workflow run zig_format.yml --repo zachdehooge/pipelinr --ref temp_pipe --field environment=staging
