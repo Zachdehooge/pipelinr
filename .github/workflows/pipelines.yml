@@ -102,16 +102,6 @@ jobs:
 
           sleep 30
 
-          rm .github/workflows/python.yml .github/workflows/python_format.yml .github/workflows/zig.yml .github/workflows/zig_format.yml main.py main.zig
-          
-          git add .
-
-          git commit -m "Remove temporary workflow files"
-
-          git push origin temp_pipe
-
-          git push origin --delete temp_pipe
-
       - name: Cleanup temp_pipe branch
         if: always()
         env:
