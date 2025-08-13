@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PIPE_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: true
       - name: Install Go
         uses: actions/setup-go@v5
         with:
@@ -37,6 +39,7 @@ jobs:
           go run main.go zig
           go run main.go python
           go run main.go golang
+
       - name: Add Files and Commit
         env:
           token: ${{ secrets.PIPE_TOKEN }}
