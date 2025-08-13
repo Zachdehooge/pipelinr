@@ -80,7 +80,7 @@ jobs:
           
           git pull origin temp_pipe
           
-          git branch temp_pipe
+          git switch temp_pipe
 
           echo "Current branch:" 
           
