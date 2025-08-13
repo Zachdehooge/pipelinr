@@ -32,3 +32,5 @@ go.work.sum
 # .vscode/
 
 /pipelinr
+
+/.idea
