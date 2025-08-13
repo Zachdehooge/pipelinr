@@ -37,6 +37,7 @@ jobs:
           python-version: '3.13'
       - name: Run main.py
         run: |
+          echo "$(git rev-parse --abbrev-ref HEAD)"
           ls -la
           python main.py
 
