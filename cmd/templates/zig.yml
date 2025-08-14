@@ -16,4 +16,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: mlugg/setup-zig@v2
-      - run: zig init && zig build
+      - run: zig build
