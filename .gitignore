@@ -34,3 +34,5 @@ go.work.sum
 /pipelinr
 
 /.idea
+# Added by goreleaser init:
+dist/
