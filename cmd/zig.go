@@ -5,73 +5,28 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
-func zig() []byte {
-	var text = `name: CI/CD
+func copyYAMLZig(src, dst string) error {
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    name: Build
-    steps:
-      - uses: actions/checkout@v3
-      - uses: mlugg/setup-zig@v2
-      - run: zig build`
-
-	return []byte(text)
-}
-
-func zig_format() []byte {
-	var text = `name: Format
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  format:
-    runs-on: ubuntu-latest
-    name: Format
-    steps:
-      - uses: actions/checkout@v3
-      - uses: mlugg/setup-zig@v2
-      - run: zig fmt src/*.zig
-
-
-# Commit changes if any
-      - name: Check for changes
-        id: git-check
-        run: |
-          git status --porcelain
-          echo "changes=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
-
-      - name: Commit changes
-        if: steps.git-check.outputs.changes > 0
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add -A
-          git commit -m "Auto-format Go code"
-          git push`
-
-	return []byte(text)
+	_, err = io.Copy(out, in)
+	return err
 }
 
 // zigCmd represents the zig command
@@ -85,16 +40,20 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.MkdirAll(".github/workflows", 0755)
+		err := os.MkdirAll(".github/templates", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		color.Yellow("Creating cicd file for zig...")
-		os.WriteFile(".github/workflows/zig.yml", zig(), 0644)
+		color.Yellow("Copying zig.yml workflow...")
+		if err := copyYAMLZig("./cmd/templates/zig.yml", ".github/workflows/zig.yml"); err != nil {
+			fmt.Printf("Error copying zig.yml: %v\n", err)
+		}
 
-		color.Yellow("Creating format file for zig...")
-		os.WriteFile(".github/workflows/zig_format.yml", zig_format(), 0644)
+		color.Yellow("Copying zig_format.yml workflow...")
+		if err := copyYAMLZig("./cmd/templates/zig_format.yml", ".github/workflows/zig_format.yml"); err != nil {
+			fmt.Printf("Error copying zig_format.yml: %v\n", err)
+		}
 	},
 }
 

@@ -1,0 +1,111 @@
+name: Pipeline Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+jobs:
+  pipeline-tests:
+    name: Pipeline Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PIPE_TOKEN }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '>=1.23.0'
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install Zig
+        run: sudo snap install zig --classic --beta
+      - name: Create Python Hello World
+        run: echo "print('Hello, World!')" > main.py
+      - name: Add workflow files
+        run: |
+          go run main.go zig
+          go run main.go python
+          go run main.go golang
+          zig init
+
+      - name: Add Files and Commit
+        env:
+          token: ${{ secrets.PIPE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git branch -c temp_pipe || git checkout -b temp_pipe
+
+          git add . || echo "No changes to commit"
+
+          git commit -m "Add temporary workflow files" || echo "No changes to commit"
+
+          git push origin temp_pipe
+
+      - name: Workflow Dispatch
+        env:
+          token: ${{ secrets.PIPE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin temp_pipe
+          
+          git checkout temp_pipe
+          
+          git pull origin temp_pipe
+          
+          echo "Current branch:"
+
+          git branch --show-current
+
+          echo "Pipeline Structure:"
+
+          ls .github/workflows
+
+          echo "Current directory:"
+          pwd
+
+          echo "Executing workflow python.yml"
+
+          gh workflow run python.yml --ref temp_pipe || exit 420
+
+          sleep 30
+
+          echo "Executing workflow python_format.yml"
+
+          gh workflow run python_format.yml --ref temp_pipe  || exit 421
+
+          sleep 30
+
+          echo "Executing workflow zig.yml"
+
+          gh workflow run zig.yml --ref temp_pipe  || exit 423
+
+          sleep 30
+
+          echo "Executing workflow zig_format.yml"
+
+          gh workflow run zig_format.yml --ref temp_pipe  || exit 424
+
+          sleep 30
+
+      - name: Cleanup temp_pipe branch
+        if: always()
+        env:
+          token: ${{ secrets.PIPE_TOKEN }}
+        run: |
+          git push origin --delete temp_pipe || echo "Branch already deleted or does not exist"

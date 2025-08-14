@@ -1,0 +1,19 @@
+name: Zig CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - temp_pipe
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: mlugg/setup-zig@v2
+      - run: zig build
