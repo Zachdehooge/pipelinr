@@ -24,9 +24,9 @@ jobs:
       - name: Compile HelloWorld.java
         run: |
           ls -la
-          javac HelloWorld.java
+          javac hello.java
 
       - name: Run HelloWorld
         run: |
           ls -la
-          java HelloWorld.class
+          java hello
