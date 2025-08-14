@@ -47,7 +47,6 @@ jobs:
         run: echo "print('Hello, World!')" > main.py
       - name: Create Java Hello World
         run: |  
-          mkdir -p hello_world/src/helloworld
           echo 'package helloworld; public class HelloWorld { public static void main(String[] args) { System.out.println("Hello, World!"); } }' > HelloWorld.java
 
       - name: Add workflow files
