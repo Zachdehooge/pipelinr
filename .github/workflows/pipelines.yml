@@ -93,39 +93,135 @@ jobs:
 
           echo "Executing workflow python.yml"
 
-          gh workflow run python.yml --ref temp_pipe
-
-          sleep 30
+          run_id=$(gh workflow run python.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=python.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "python.yml succeeded"
+                break
+              else
+                echo "python.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
 
           echo "Executing workflow python_format.yml"
 
-          gh workflow run python_format.yml --ref temp_pipe
-
-          sleep 30
+          run_id=$(gh workflow run python_format.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=python_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "python_format.yml succeeded"
+                break
+              else
+                echo "python_format.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
 
           echo "Executing workflow zig.yml"
 
-          gh workflow run zig.yml --ref temp_pipe
-
-          sleep 30
+          run_id=$(gh workflow run zig.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=zig.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "zig.yml succeeded"
+                break
+              else
+                echo "zig.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
 
           echo "Executing workflow zig_format.yml"
 
-          gh workflow run zig_format.yml --ref temp_pipe
-
-          sleep 30
+          run_id=$(gh workflow run zig_format.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=zig_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "zig_format.yml succeeded"
+                break
+              else
+                echo "zig_format.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
           
           echo "Executing workflow java.yml"
           
-          gh workflow run java.yml --ref temp_pipe
-          
-          sleep 30
+          run_id=$(gh workflow run java.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=java.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "java.yml succeeded"
+                break
+              else
+                echo "java.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
           
           echo "Executing workflow java_format.yml"
           
-          gh workflow run java_format.yml --ref temp_pipe
-          
-          sleep 30  
+          run_id=$(gh workflow run java_format.yml --ref temp_pipe --json id -q '.id')
+          while [[ -z "$run_id" ]]; do
+            sleep 5
+            run_id=$(gh run list --workflow=java_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
+          done
+          while true; do
+            status=$(gh run view "$run_id" --json status,conclusion -q '.status')
+            if [[ "$status" == "completed" ]]; then
+              conclusion=$(gh run view "$run_id" --json conclusion -q '.conclusion')
+              if [[ "$conclusion" == "success" ]]; then
+                echo "java_format.yml succeeded"
+                break
+              else
+                echo "java_format.yml failed"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
 
       - name: Cleanup temp_pipe branch
         if: always()
