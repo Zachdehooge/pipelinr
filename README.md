@@ -1,7 +1,6 @@
 # pipelinr
 
-[![CI/CD](https://github.com/Zachdehooge/pipelinr/actions/workflows/golang.yml/badge.svg)](https://github.com/Zachdehooge/pipelinr/actions/workflows/golang.yml)
-[![Go Format](https://github.com/Zachdehooge/pipelinr/actions/workflows/golang_format.yml/badge.svg)](https://github.com/Zachdehooge/pipelinr/actions/workflows/golang_format.yml)
+[![Pipeline Tests](https://github.com/Zachdehooge/pipelinr/actions/workflows/pipelines.yml/badge.svg)](https://github.com/Zachdehooge/pipelinr/actions/workflows/pipelines.yml)
 
 **pipelinr** is a CLI tool for generating language-specific CI/CD pipeline templates. Allowing you to scaffold workflow files for your projects using a single command.
 
