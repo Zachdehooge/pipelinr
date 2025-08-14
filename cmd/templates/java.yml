@@ -1,0 +1,32 @@
+name: Java
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches:
+      - main
+      - temp_pipe
+  workflow_dispatch:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          java -version
+
+      - name: Compile HelloWorld.java
+        run: |
+          ls -la
+          javac Hello.java
+
+      - name: Run HelloWorld
+        run: |
+          ls -la
+          java Hello
