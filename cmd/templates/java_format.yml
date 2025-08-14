@@ -3,6 +3,11 @@ name: Java Format
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches:
+      - main
+      - temp_pipe
+  workflow_dispatch:
 
 jobs:
   format:
