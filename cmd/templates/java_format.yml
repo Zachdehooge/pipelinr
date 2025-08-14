@@ -34,11 +34,11 @@ jobs:
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.PIPE_TOKEN }}
+          PIPE_TOKEN: ${{ secrets.PIPE_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.PIPE_TOKEN }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${PIPE_TOKEN}@github.com/${{ github.repository }}.git
           git add .
           git diff --cached --quiet || git commit -m "style: format Java code with google-java-format"
           git push
