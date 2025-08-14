@@ -93,7 +93,7 @@ jobs:
 
           echo "Executing workflow python.yml"
 
-          run_id=$(gh workflow run python.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run python.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=python.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
@@ -115,7 +115,7 @@ jobs:
 
           echo "Executing workflow python_format.yml"
 
-          run_id=$(gh workflow run python_format.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run python_format.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=python_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
@@ -137,7 +137,7 @@ jobs:
 
           echo "Executing workflow zig.yml"
 
-          run_id=$(gh workflow run zig.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run zig.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=zig.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
@@ -159,7 +159,7 @@ jobs:
 
           echo "Executing workflow zig_format.yml"
 
-          run_id=$(gh workflow run zig_format.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run zig_format.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=zig_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
@@ -181,7 +181,7 @@ jobs:
           
           echo "Executing workflow java.yml"
           
-          run_id=$(gh workflow run java.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run java.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=java.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
@@ -203,7 +203,7 @@ jobs:
           
           echo "Executing workflow java_format.yml"
           
-          run_id=$(gh workflow run java_format.yml --ref temp_pipe --json id -q '.id')
+          run_id=$(gh workflow run java_format.yml --ref temp_pipe --json id | jq -r '.id')
           while [[ -z "$run_id" ]]; do
             sleep 5
             run_id=$(gh run list --workflow=java_format.yml --branch=temp_pipe --json databaseId -q '.[0].databaseId')
