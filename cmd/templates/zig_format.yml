@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: mlugg/setup-zig@v2
-      - run: zig fmt src/*.zig
+      - run: zig fmt src/main.zig
 
 
 # Commit changes if any
