@@ -55,6 +55,7 @@ jobs:
           go run main.go zig
           go run main.go python
           go run main.go golang
+          go run main.go java
           zig init
 
       - name: Add Files and Commit
