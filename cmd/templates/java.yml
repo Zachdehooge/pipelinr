@@ -12,18 +12,17 @@ on:
 jobs:
   format:
     runs-on: ubuntu-latest
+    steps:
+      - name: Install Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          java -version
 
-steps:
-  - name: Install Java
-    run: |
-      sudo apt-get update
-      sudo apt-get install -y openjdk-17-jdk
-      java -version
+      - name: Compile HelloWorld.java
+        run: |
+          javac HelloWorld.java
 
-  - name: Compile HelloWorld.java
-    run: |
-      javac HelloWorld.java
-
-  - name: Run HelloWorld
-    run: |
-      java HelloWorld
+      - name: Run HelloWorld
+        run: |
+          java HelloWorld
