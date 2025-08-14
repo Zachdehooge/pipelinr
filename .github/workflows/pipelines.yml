@@ -16,24 +16,40 @@ jobs:
     name: Pipeline Tests
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PIPE_TOKEN }}
           fetch-depth: 0
           persist-credentials: true
+
       - name: Install Go
         uses: actions/setup-go@v5
         with:
           go-version: '>=1.23.0'
+
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+
       - name: Install Zig
         run: sudo snap install zig --classic --beta
+
+      - name: Install Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          java -version
+
       - name: Create Python Hello World
         run: echo "print('Hello, World!')" > main.py
+      - name: Create Java Hello World
+        run: |  
+          mkdir -p hello_world/src/helloworld
+          echo 'package helloworld; public class HelloWorld { public static void main(String[] args) { System.out.println("Hello, World!"); } }' > HelloWorld.java
+
       - name: Add workflow files
         run: |
           go run main.go zig
@@ -77,27 +93,39 @@ jobs:
 
           echo "Executing workflow python.yml"
 
-          gh workflow run python.yml --ref temp_pipe || exit 420
+          gh workflow run python.yml --ref temp_pipe
 
           sleep 30
 
           echo "Executing workflow python_format.yml"
 
-          gh workflow run python_format.yml --ref temp_pipe  || exit 421
+          gh workflow run python_format.yml --ref temp_pipe
 
           sleep 30
 
           echo "Executing workflow zig.yml"
 
-          gh workflow run zig.yml --ref temp_pipe  || exit 423
+          gh workflow run zig.yml --ref temp_pipe
 
           sleep 30
 
           echo "Executing workflow zig_format.yml"
 
-          gh workflow run zig_format.yml --ref temp_pipe  || exit 424
+          gh workflow run zig_format.yml --ref temp_pipe
 
           sleep 30
+          
+          echo "Executing workflow java.yml"
+          
+          gh workflow run java.yml --ref temp_pipe
+          
+          sleep 30
+          
+          echo "Executing workflow java_format.yml"
+          
+          gh workflow run java_format.yml --ref temp_pipe
+          
+          sleep 30  
 
       - name: Cleanup temp_pipe branch
         if: always()
