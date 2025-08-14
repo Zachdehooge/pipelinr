@@ -28,4 +28,5 @@ jobs:
 
       - name: Run HelloWorld
         run: |
+          ls -la
           java HelloWorld
