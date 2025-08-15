@@ -5,29 +5,11 @@ package cmd
 
 import (
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
-
-func copyYAMLZig(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	return err
-}
 
 // zigCmd represents the zig command
 var zigCmd = &cobra.Command{
@@ -35,19 +17,19 @@ var zigCmd = &cobra.Command{
 	Short: "starter pipeline for zig",
 	Long:  `A starter pipeline with a formatter, builder, linter and security tests for your zig project`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.MkdirAll(".github/templates", 0755)
+		err := os.MkdirAll(".github/workflows", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		color.Yellow("Copying zig.yml workflow...")
-		if err := copyYAMLZig("./cmd/templates/zig.yml", ".github/workflows/zig.yml"); err != nil {
-			fmt.Printf("Error copying zig.yml: %v\n", err)
+		color.Green("Downloading zig.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/zig.yml", ".github/workflows/zig.yml"); err != nil {
+			fmt.Printf("Error downloading zig.yml: %v\n", err)
 		}
 
-		color.Yellow("Copying zig_format.yml workflow...")
-		if err := copyYAMLZig("./cmd/templates/zig_format.yml", ".github/workflows/zig_format.yml"); err != nil {
-			fmt.Printf("Error copying zig_format.yml: %v\n", err)
+		color.Green("Downloading zig_format.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/zig_format.yml", ".github/workflows/zig_format.yml"); err != nil {
+			fmt.Printf("Error downloading zig_format.yml: %v\n", err)
 		}
 	},
 }

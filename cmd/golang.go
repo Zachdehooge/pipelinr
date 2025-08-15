@@ -5,50 +5,31 @@ package cmd
 
 import (
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
-func copyYAMLGolang(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	return err
-}
-
 var golangCmd = &cobra.Command{
 	Use:   "golang",
 	Short: "starter pipeline for golang projects",
 	Long:  `A starter pipeline with a formatter, builder, linter and security tests for your golang project`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.MkdirAll(".github/templates", 0755)
+		err := os.MkdirAll(".github/workflows", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		color.Cyan("Copying golang.yml workflow...")
-		if err := copyYAMLGolang("./cmd/templates/golang.yml", ".github/workflows/golang.yml"); err != nil {
-			fmt.Printf("Error copying golang.yml: %v\n", err)
+		color.Cyan("Downloading golang.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/golang.yml", ".github/workflows/golang.yml"); err != nil {
+			fmt.Printf("Error downloading golang.yml: %v\n", err)
 		}
 
-		color.Cyan("Copying golang_format.yml workflow...")
-		if err := copyYAMLGolang("./cmd/templates/golang_format.yml", ".github/workflows/golang_format.yml"); err != nil {
-			fmt.Printf("Error copying golang_format.yml: %v\n", err)
+		color.Cyan("Downloading golang_format.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/golang_format.yml", ".github/workflows/golang_format.yml"); err != nil {
+			fmt.Printf("Error downloading golang_format.yml: %v\n", err)
 		}
-
 	},
 }
 
