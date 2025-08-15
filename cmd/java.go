@@ -5,29 +5,11 @@ package cmd
 
 import (
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
-
-func copyYAMLJava(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	return err
-}
 
 // javaCmd represents the java command
 var javaCmd = &cobra.Command{
@@ -35,19 +17,19 @@ var javaCmd = &cobra.Command{
 	Short: "starter pipeline for java",
 	Long:  `A starter pipeline with a formatter, builder, linter and security tests for your java project`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.MkdirAll(".github/templates", 0755)
+		err := os.MkdirAll(".github/workflows", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		color.Red("Copying java.yml workflow...")
-		if err := copyYAMLJava("./cmd/templates/java.yml", ".github/workflows/java.yml"); err != nil {
-			fmt.Printf("Error copying java.yml: %v\n", err)
+		color.Red("Downloading java.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/java.yml", ".github/workflows/java.yml"); err != nil {
+			fmt.Printf("Error downloading java.yml: %v\n", err)
 		}
 
-		color.Red("Copying java_format.yml workflow...")
-		if err := copyYAMLJava("./cmd/templates/java_format.yml", ".github/workflows/java_format.yml"); err != nil {
-			fmt.Printf("Error copying java_format.yml: %v\n", err)
+		color.Red("Downloading java_format.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/java_format.yml", ".github/workflows/java_format.yml"); err != nil {
+			fmt.Printf("Error downloading java_format.yml: %v\n", err)
 		}
 	},
 }

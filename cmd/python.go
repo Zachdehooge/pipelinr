@@ -5,29 +5,11 @@ package cmd
 
 import (
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
-
-func copyYAMLPython(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	return err
-}
 
 // pythonCmd represents the python command
 var pythonCmd = &cobra.Command{
@@ -35,19 +17,19 @@ var pythonCmd = &cobra.Command{
 	Short: "starter pipeline for python",
 	Long:  `A starter pipeline with a formatter, builder, linter and security tests for your python project`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.MkdirAll(".github/templates", 0755)
+		err := os.MkdirAll(".github/workflows", 0755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			return
 		}
-		color.Blue("Copying python.yml workflow...")
-		if err := copyYAMLPython("./cmd/templates/python.yml", ".github/workflows/python.yml"); err != nil {
-			fmt.Printf("Error copying python.yml: %v\n", err)
+		color.Yellow("Downloading python.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/python.yml", ".github/workflows/python.yml"); err != nil {
+			fmt.Printf("Error downloading python.yml: %v\n", err)
 		}
 
-		color.Blue("Copying python_format.yml workflow...")
-		if err := copyYAMLPython("./cmd/templates/python_format.yml", ".github/workflows/python_format.yml"); err != nil {
-			fmt.Printf("Error copying python_format.yml: %v\n", err)
+		color.Yellow("Downloading python_format.yml workflow...")
+		if err := DownloadYAMLFromGitHub("https://raw.githubusercontent.com/Zachdehooge/pipelinr/main/cmd/templates/python_format.yml", ".github/workflows/python_format.yml"); err != nil {
+			fmt.Printf("Error downloading python_format.yml: %v\n", err)
 		}
 	},
 }
