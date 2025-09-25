@@ -1,3 +1,5 @@
+# A GitHub action that runs the pipeline templates against a simple "Hello, World!" program for each of their respective programming languages and ensures that the workflows complete successfully.
+
 name: Pipeline Tests
 on:
   push:
@@ -7,10 +9,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 permissions:
   actions: write
   contents: write
   pull-requests: write
+
 jobs:
   pipeline-tests:
     name: Pipeline Tests
